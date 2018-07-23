@@ -3,6 +3,7 @@
 include_once('./vendor/autoload.php');
 
 use Firebase\JWT\JWT;
+
 function $new_jwt($id, $passwd){
   $tokenId = base64_encode("tokenID_example");
   $issuedAt = time();

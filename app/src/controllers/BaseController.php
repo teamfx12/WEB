@@ -1,5 +1,5 @@
 <?php
-
+include_once('./JWT.php');
 namespace App\Controller;
 
 use Slim\Container;

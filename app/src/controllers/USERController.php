@@ -20,11 +20,24 @@ final class USERController extends BaseController
       $todos = $sth->fetchAll();
       return $response->withJson($todos);
     }*/
+    public function user_post(Request $request, Response $response){
+      $var_sel = $request->getParsedBody()['req'];
+      switch ($var_sel) {
+        case 'sign-up': break;
+        case 'sign-in': break;
+        case 'sign-out' : break;
+        case 'change-pw' : break;
+        case 'forgot-pw' : break;
+        case 'id-cancel' : break;
+        default: break;
+      }
+    }
     public function forgotten_password(Request $request, Response $response){
       $sql = "SELECT passwd FROM USER WHERE passwd=:passwd";
 
     }
     public function password_change(Request $request, Response $response){
+
 
     }
     public function id_cancel(Request $request, Response $response){
@@ -62,11 +75,7 @@ final class USERController extends BaseController
       $email_address = $input['email'];
       $email_subject = 'USER Authentication Mail';
       $email_body    = "Hi! Your Authentication Link is\n".(string)$URL.(string)$Random_val."\nWelcome!!";
-      /*$retval = USER_mailing($email_address, $email_subject, $email_body);
-      var_dump($retval);
-      return;
-      //return $response->getBody()->write($retval);*/
-      if(!USER_mailing($email_address, $email_subject, $email_body)){
+      if(!send_mail($email_address, $email_subject, $email_body)){
         return $response->withJson(array("status"=>"Error", "Msg"=>"Mail Send Error"));
       }
       $sql = "INSERT INTO USER (email_verify_link, fname, lname, email, passwd) VALUES (:link, :fname, :lname, :email, :passwd)";
@@ -86,8 +95,8 @@ final class USERController extends BaseController
         #$response->withJson( array("status"=>$e->getMessage()) );
         die;
       }
-      $retval['status'] = "OK";
-      $retval['Msg'] = $input['email'];
+        $retval['status'] = "OK";
+        $retval['Msg'] = $input['email'];
       return $response->withJson($retval);
     }
 #intval();
@@ -120,7 +129,7 @@ final class USERController extends BaseController
         $dbdata["status"] = "OK";
         return $response->withJson($dbdata);
       }catch(Exception $e){
-        #if occur some internal error
+        #if occur some internal errorc
         $Msg_body = array("status"=>"Error","Msg"=>$e->getMessage());
         return $response->withJson($Msg_body);
       }
@@ -128,7 +137,7 @@ final class USERController extends BaseController
 
 }
 
-function USER_mailing($email_address, $email_subject, $email_body){
+function sned_mail($email_address, $email_subject, $email_body){
   $mail = new PHPMailer;
   try{
     $mail->isSMTP();
