@@ -40,9 +40,9 @@ return [
         ],
         "db" => [
            "host" => "localhost",
-           "dbname" => "IoT_DATABASE",
-           "user" => "root",
-           "pass" => "12345678"
+           "dbname" => "teamf-2018summer",
+           "user" => "teamf-iot",
+           "pass" => "f290sf945gsj"
          ],
     ],
 ];

@@ -10,7 +10,6 @@ use PHPMailer\PHPMailer\Exception;
 
 final class USERController extends BaseController
 {
-
     #$app->delete('/todo/[{id}]', function ($request, $response, $args)
     /*public function Delete_User(Request $request, Response $response, $args){
       $sth = $this->db->prepare("DELETE FROM USER WHERE USER_LNAME=:LNAME");
@@ -34,7 +33,6 @@ final class USERController extends BaseController
     }
     public function forgotten_password(Request $request, Response $response){
       $sql = "SELECT passwd FROM USER WHERE passwd=:passwd";
-
     }
     public function password_change(Request $request, Response $response){
 
@@ -44,23 +42,18 @@ final class USERController extends BaseController
 
     }
     public function verify_email(Request $request, Response $response, $args){
-      //return $response->getBody()->write($args['id']);
-      $sql = "SELECT Email_verify FROM USER WHERE email_verify_link=:link";
-      //$sql = "SELECT email_verify_link, email_verify FROM USER";
+      $sql = "SELECT email_verify FROM user WHERE email_verify_link=:link";
       $sth = $this->db->prepare($sql);
       $sth->bindParam("link", $args['id']);
       $sth->execute();
       $dbdata = $sth->fetch();
       if($dbdata == null){
-        //return $response->getBody()->write("LINK Error");
         return $response->withJson(array("status"=>"Error","Msg"=>"LINK Error"));
       }
       else if($dbdata['Email_verify'] == '1'){
         return $response->withJson(array("status"=>"Error","Msg"=>"Already Verified"));
-        //return $response->getBody()->write("Already Verified");
       }
-      //$keyName = "email_verify_link";
-      $sql = "UPDATE USER SET email_verify = '1' WHERE email_verify_link=:verify";
+      $sql = "UPDATE user SET email_verify = '1' WHERE email_verify_link=:verify";
       $sth = $this->db->prepare($sql);
       $sth->bindParam("verify", $args['id']);
       $sth->execute();
@@ -78,7 +71,7 @@ final class USERController extends BaseController
       if(!send_mail($email_address, $email_subject, $email_body)){
         return $response->withJson(array("status"=>"Error", "Msg"=>"Mail Send Error"));
       }
-      $sql = "INSERT INTO USER (email_verify_link, fname, lname, email, passwd) VALUES (:link, :fname, :lname, :email, :passwd)";
+      $sql = "INSERT INTO user (email_verify_link, fname, lname, email, hashed_passwd) VALUES (:link, :fname, :lname, :email, :passwd)";
       $sth = $this->db->prepare($sql);
       $hash = password_hash($input['passwd'], PASSWORD_DEFAULT);
       $sth->bindParam("link", $Random_val);
@@ -86,7 +79,7 @@ final class USERController extends BaseController
       $sth->bindParam("fname", $input['firstName']);
       $sth->bindParam("lname", $input['lastName']);
       $sth->bindParam("email", $input['email']);
-      $sth->bindParam("passwd",$hash);
+      $sth->bindParam("hashed_passwd",$hash);
       #$sth->bindParam("email_verify",0);
       try{
         $sth->execute();
@@ -102,7 +95,7 @@ final class USERController extends BaseController
 #intval();
     public function sign_in(Request $request, Response $response){
       $input = $request->getParsedBody();
-      $sql = "SELECT * FROM USER WHERE email=:email";
+      $sql = "SELECT * FROM user WHERE email=:email";
       try{
         $sth = $this->db->prepare($sql);
         $sth->setFetchMode(\PDO::FETCH_ASSOC);
@@ -116,9 +109,9 @@ final class USERController extends BaseController
       try{ #Check Error
         if(!$dbdata){ #if "email" exist in DB
           throw new Exception('ID error');
-        }if(!$dbdata['passwd']){ #DB Save Error
+        }if(!$dbdata['hashed_passwd']){ #DB Save Error
           throw new Exception('DB Error');
-        }if(!password_verify($input['passwd'], $dbdata['passwd'])){
+        }if(!password_verify($input['passwd'], $dbdata['hashed_passwd'])){
           #Password is diff with DB
           throw new Exception('Password Error');
         }if($dbdata['email_verify']==0){

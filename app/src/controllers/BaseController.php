@@ -17,7 +17,7 @@ class BaseController
         $this->flash = $c->get('flash');
         $this->em = $c->get('em');
         $this->db = $c->get('db');
-        $this->server_url = "192.168.33.99";
+        $this->server_url = "teamf-iot.calit2.net";
     }
     protected function Query_Msg($CMD, $TABLE, $COND){
       $SQL = $CMD + "" + "FROM" + "W";
