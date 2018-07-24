@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 final class USERController extends BaseController
 {
-  private $server_url = "http://192.168.33.99";
+
     #$app->delete('/todo/[{id}]', function ($request, $response, $args)
     /*public function Delete_User(Request $request, Response $response, $args){
       $sth = $this->db->prepare("DELETE FROM USER WHERE USER_LNAME=:LNAME");
@@ -71,7 +71,7 @@ final class USERController extends BaseController
     public function sign_up(Request $request, Response $response){
       $input = $request->getParsedBody();
       $Random_val = mt_rand(100000,999999);
-      $URL = $this->$server_url + "/user/signup/";
+      $URL = $this->server_url + "/user/signup/";
       $email_address = $input['email'];
       $email_subject = 'USER Authentication Mail';
       $email_body    = "Hi! Your Authentication Link is\n".(string)$URL.(string)$Random_val."\nWelcome!!";
@@ -137,7 +137,7 @@ final class USERController extends BaseController
 
 }
 
-function sned_mail($email_address, $email_subject, $email_body){
+function send_mail($email_address, $email_subject, $email_body){
   $mail = new PHPMailer;
   try{
     $mail->isSMTP();

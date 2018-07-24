@@ -1,5 +1,4 @@
 <?php
-include_once('./JWT.php');
 namespace App\Controller;
 
 use Slim\Container;
@@ -10,6 +9,7 @@ class BaseController
     protected $flash;
     protected $em;  // Entities Manager
     protected $db;
+    protected $server_url;
     public function __construct(Container $c)
     {
         $this->view = $c->get('view');
@@ -17,6 +17,7 @@ class BaseController
         $this->flash = $c->get('flash');
         $this->em = $c->get('em');
         $this->db = $c->get('db');
+        $this->server_url = "192.168.33.99";
     }
     protected function Query_Msg($CMD, $TABLE, $COND){
       $SQL = $CMD + "" + "FROM" + "W";

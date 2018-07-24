@@ -1,8 +1,8 @@
 <?php
 // Routes
-$app->get('/user/signup/{id}', 'App\Controller\USERController:Verify_Email')->setName('view_post');
-$app->post('/user/login', 'App\Controller\USERController:USERlogin')->setName('login');
-$app->post('/user/signup', 'App\Controller\USERController:USERsignup')->setName('signup');
+$app->get('/user/signup/{id}', 'App\Controller\USERController:verify_email')->setName('verify_email');
+$app->post('/user/login', 'App\Controller\USERController:sign_in')->setName('signin');
+$app->post('/user/signup', 'App\Controller\USERController:sign_up')->setName('signup');
 #$app->get('/', 'App\Controller\HomeController:dispatch')->setName('homepage');
 
 #$app->Post('/post/', 'App\Controller\USER_controller:PostMsg') ->setName('PostMsg');
