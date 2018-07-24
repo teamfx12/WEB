@@ -8,27 +8,26 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema WorkingOutInFreshAir
+-- Schema teamf-2018summer
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema WorkingOutInFreshAir
+-- Schema teamf-2018summer
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `WorkingOutInFreshAir` DEFAULT CHARACTER SET utf8 ;
-USE `WorkingOutInFreshAir` ;
+USE `teamf-2018summer` ;
 
 -- -----------------------------------------------------
--- Table `WorkingOutInFreshAir`.`timestamps`
+-- Table `teamf-2018summer`.`timestamps`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`timestamps` (
+CREATE TABLE IF NOT EXISTS `teamf-2018summer`.`timestamps` (
   `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` TIMESTAMP NULL);
 
 
 -- -----------------------------------------------------
--- Table `WorkingOutInFreshAir`.`user`
+-- Table `teamf-2018summer`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`user` (
+CREATE TABLE IF NOT EXISTS `teamf-2018summer`.`user` (
   `fname` VARCHAR(20) NOT NULL,
   `lname` VARCHAR(20) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
@@ -42,9 +41,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WorkingOutInFreshAir`.`location`
+-- Table `teamf-2018summer`.`location`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`location` (
+CREATE TABLE IF NOT EXISTS `teamf-2018summer`.`location` (
   `longitude` FLOAT NOT NULL,
   `latitude` FLOAT NOT NULL,
   `location_num` INT NOT NULL,
@@ -53,9 +52,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WorkingOutInFreshAir`.`air_sensor_list`
+-- Table `teamf-2018summer`.`air_sensor_list`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`air_sensor_list` (
+CREATE TABLE IF NOT EXISTS `teamf-2018summer`.`air_sensor_list` (
   `air_sensor_id` VARCHAR(45) NOT NULL,
   `usn` INT NOT NULL,
   `location_num` INT NOT NULL,
@@ -64,21 +63,21 @@ CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`air_sensor_list` (
   INDEX `fk_air_sensor_list_location1_idx` (`location_num` ASC),
   CONSTRAINT `fk_user_sensor_user1`
     FOREIGN KEY (`usn`)
-    REFERENCES `WorkingOutInFreshAir`.`user` (`usn`)
+    REFERENCES `teamf-2018summer`.`user` (`usn`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_air_sensor_list_location1`
     FOREIGN KEY (`location_num`)
-    REFERENCES `WorkingOutInFreshAir`.`location` (`location_num`)
+    REFERENCES `teamf-2018summer`.`location` (`location_num`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WorkingOutInFreshAir`.`air_sensor_data`
+-- Table `teamf-2018summer`.`air_sensor_data`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`air_sensor_data` (
+CREATE TABLE IF NOT EXISTS `teamf-2018summer`.`air_sensor_data` (
   `co` FLOAT NULL,
   `co2` FLOAT NULL,
   `so2` FLOAT NULL,
@@ -92,32 +91,32 @@ CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`air_sensor_data` (
   INDEX `fk_air_sensor_data_air_sensor_list1_idx` (`air_sensor_id` ASC),
   CONSTRAINT `fk_air_sensor_data_air_sensor_list1`
     FOREIGN KEY (`air_sensor_id`)
-    REFERENCES `WorkingOutInFreshAir`.`air_sensor_list` (`air_sensor_id`)
+    REFERENCES `teamf-2018summer`.`air_sensor_list` (`air_sensor_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WorkingOutInFreshAir`.`polar`
+-- Table `teamf-2018summer`.`polar`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`polar` (
+CREATE TABLE IF NOT EXISTS `teamf-2018summer`.`polar` (
   `polar_sensor_id` VARCHAR(20) NOT NULL,
   `usn` INT NOT NULL,
   PRIMARY KEY (`polar_sensor_id`, `usn`),
   INDEX `fk_polar_user1_idx` (`usn` ASC),
   CONSTRAINT `fk_polar_user1`
     FOREIGN KEY (`usn`)
-    REFERENCES `WorkingOutInFreshAir`.`user` (`usn`)
+    REFERENCES `teamf-2018summer`.`user` (`usn`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `WorkingOutInFreshAir`.`polar_data`
+-- Table `teamf-2018summer`.`polar_data`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`polar_data` (
+CREATE TABLE IF NOT EXISTS `teamf-2018summer`.`polar_data` (
   `heartrate` INT NOT NULL,
   `rr_interval` INT NOT NULL,
   `create_time` TIMESTAMP NOT NULL,
@@ -125,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `WorkingOutInFreshAir`.`polar_data` (
   PRIMARY KEY (`polar_sensor_id`),
   CONSTRAINT `fk_polar_data_polar1`
     FOREIGN KEY (`polar_sensor_id`)
-    REFERENCES `WorkingOutInFreshAir`.`polar` (`polar_sensor_id`)
+    REFERENCES `teamf-2018summer`.`polar` (`polar_sensor_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
