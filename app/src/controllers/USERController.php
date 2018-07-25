@@ -25,11 +25,11 @@ final class USERController extends BaseController
           break;
         case 'sign-up':
           $input = $request->getParsedBody();
-          return $response->getBody()->write(sign_up($input));
+          return $response->getBody()->write($this->sign_up($input));
         break;
         case 'login':
           $input = $request->getParsedBody();
-          return $response->getBody()->write(sign_in($input));
+          return $response->getBody()->write($this->sign_in($input));
         break;
         case 'sign-out' : break;
         case 'change-pw' : break;
@@ -76,14 +76,15 @@ final class USERController extends BaseController
       if(!send_mail($email_address, $email_subject, $email_body)){
         return json_encode(array("status"=>"Error", "Msg"=>"Mail Send Error"));
       }
-      $sql = "INSERT INTO user (email_verify_link, fname, lname, email, hashed_passwd) VALUES (:link, :fname, :lname, :email, :passwd)";
+      $sql = "INSERT INTO user (email_verify_link, fname, lname, id,  email, hash_passwd) VALUES (:link, :fname, :lname, :id,  :email, :passwd)";
       $sth = $this->db->prepare($sql);
       $hash = password_hash($input['passwd'], PASSWORD_DEFAULT);
       $sth->bindParam("link", $Random_val);
-      $sth->bindParam("fname", $input['firstName']);
-      $sth->bindParam("lname", $input['lastName']);
+      $sth->bindParam("fname", $input['fname']);
+      $sth->bindParam("lname", $input['lname']);
       $sth->bindParam("email", $input['email']);
-      $sth->bindParam("hashed_passwd",$hash);
+      $sth->bindParam("id",$input['id']);
+      $sth->bindParam("passwd",$hash);
       try{
         $sth->execute();
       }catch(PDOException $e){
@@ -92,7 +93,7 @@ final class USERController extends BaseController
         die;
       }
         $retval['status'] = "OK";
-        $retval['Msg'] = $input['email'];
+        //$retval['Msg'] = $input['email'];
       return json_encode($retval);
     }
 #intval();
