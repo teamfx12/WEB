@@ -23,11 +23,12 @@ class BaseController
       $SQL = $CMD + "" + "FROM" + "W";
       return $SQL;
     }
-    protected function DB_SQL($SQL, $Values){
-      $sth = $this->db->prepare($SQL);
-      $sth->bindParam("link", $args['id']);
+    protected function DB_SQL($sql, $values){
+      $sth = $this->db->prepare($sql);
+      foreach($values as $key => $value){
+        $sth->bindParam($key, $value[$key]);
+      }
       $sth->execute();
-      $dbdata = $sth->fetch();
-      return null;
+      return $dbdata = $sth->fetch();
     }
 }

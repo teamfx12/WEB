@@ -3,6 +3,7 @@
 $app->get('/user/signup/{id}', 'App\Controller\USERController:verify_email')->setName('verify_email');
 $app->post('/user/login', 'App\Controller\USERController:sign_in')->setName('signin');
 $app->post('/user/signup', 'App\Controller\USERController:sign_up')->setName('signup');
+$app->post('/user','App\Controller\USERController:user_post')->setName('user_post');
 #$app->get('/', 'App\Controller\HomeController:dispatch')->setName('homepage');
 
 #$app->Post('/post/', 'App\Controller\USER_controller:PostMsg') ->setName('PostMsg');
