@@ -11,16 +11,19 @@ use PHPMailer\PHPMailer\Exception;
 final class USERController extends BaseController
 {
     private function check_exist($id){
-      //$sql = "SELECT email_verify FROM user WHERE email=:email";
       $sql = "SELECT EXISTS (select * from user where id=:id) as success";
-      $values['id'] = $id;
-      return $this->DB_SQL($sql, $values);
+      $values = array("id"=>$id);
+      $ret_val = $this->DB_SQL($sql, $values);
+      if($ret_val["status"]["success"] == 0){
+        return $response->withJson(array("status"=>"true"));
+      }
+      return $response->withJson(array("status"=>"false"));
     }
     public function user_post(Request $request, Response $response){
       $var = $request->getParsedBody();
       switch ($var['function']) {
         case 'id-check':
-          $ret_var = check_exist($var['id']);
+          $ret_var = $this->check_exist($var['id']);
           return $response->withJson(array("status"=>$ret_var));
           break;
         case 'sign-up':

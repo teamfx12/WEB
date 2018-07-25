@@ -28,7 +28,7 @@ class BaseController
       foreach($values as $key => $value){
         $sth->bindParam($key, $value[$key]);
       }
-      $sth->execute();
-      return $dbdata = $sth->fetch();
+      return $sth->execute();
+
     }
 }
