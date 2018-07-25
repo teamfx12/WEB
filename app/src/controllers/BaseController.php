@@ -17,17 +17,18 @@ class BaseController
         $this->flash = $c->get('flash');
         $this->em = $c->get('em');
         $this->db = $c->get('db');
-        $this->server_url = "192.168.33.99";
+        $this->server_url = "teamf-iot.calit2.net";
     }
     protected function Query_Msg($CMD, $TABLE, $COND){
       $SQL = $CMD + "" + "FROM" + "W";
       return $SQL;
     }
-    protected function DB_SQL($SQL, $Values){
-      $sth = $this->db->prepare($SQL);
-      $sth->bindParam("link", $args['id']);
+    protected function DB_SQL($sql, $values){
+      $sth = $this->db->prepare($sql);
+      foreach($values as $key => $value){
+        $sth->bindParam($key, $value[$key]);
+      }
       $sth->execute();
-      $dbdata = $sth->fetch();
-      return null;
+      return $dbdata = $sth->fetch();
     }
 }
