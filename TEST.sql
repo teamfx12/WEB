@@ -1,0 +1,1 @@
+SELECT * FROM `teamf-2018summer`.user;

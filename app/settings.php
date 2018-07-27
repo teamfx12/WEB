@@ -41,8 +41,8 @@ return [
         "db" => [
            "host" => "localhost",
            "dbname" => "teamf-2018summer",
-           "user" => "teamf-iot",
-           "pass" => "f290sf945gsj"
+           "user" => "root",
+           "pass" => "12345678"
          ],
     ],
 ];
